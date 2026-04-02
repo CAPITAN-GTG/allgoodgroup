@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { BreadcrumbBackHome, Card, Container, MediaPlaceholder, PageHeader } from "../_components/ui";
+import {
+  BreadcrumbBackHome,
+  Card,
+  Container,
+  InnerPageContent,
+  MediaPlaceholder,
+  PageHeader,
+} from "../_components/ui";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,9 +20,9 @@ export default function ServicesPage() {
   return (
     <main className="flex-1">
       <Container>
-        <div className="py-8 sm:py-10">
+        <InnerPageContent>
           <BreadcrumbBackHome />
-          <div className="mt-6">
+          <div className="mt-8">
             <PageHeader
               eyebrow="What we build"
               title="Services"
@@ -23,7 +30,7 @@ export default function ServicesPage() {
             />
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <Card title="Luxury Home Remodels">
               Room-by-room, full-home, and high-finish upgrades with disciplined coordination and schedule accountability.
             </Card>
@@ -35,7 +42,7 @@ export default function ServicesPage() {
             </Card>
           </div>
 
-          <div className="mt-8 grid gap-4 lg:grid-cols-12 lg:items-start">
+          <div className="mt-12 grid gap-6 lg:grid-cols-12 lg:items-start">
             <div className="lg:col-span-7">
               <MediaPlaceholder
                 label="Luxury interior and exterior craftsmanship (representative)"
@@ -51,18 +58,17 @@ export default function ServicesPage() {
             </div>
           </div>
 
-          <div className="mt-10 border-t border-black/10 pt-6 text-sm">
-            <p className="text-black/70">
+          <div className="mt-14 rounded-2xl border border-white/12 bg-gradient-to-br from-orange-600/15 via-white/[0.04] to-transparent p-8 backdrop-blur-md sm:p-10">
+            <p className="text-base leading-relaxed text-white/80">
               Not sure what scope fits your property?{" "}
-              <Link className="underline-offset-4 hover:underline" href="/contact">
+              <Link className="font-medium text-orange-300 underline-offset-4 transition hover:text-orange-200 hover:underline" href="/contact">
                 Request a consult
               </Link>{" "}
               and we’ll map the path from scope to schedule.
             </p>
           </div>
-        </div>
+        </InnerPageContent>
       </Container>
     </main>
   );
 }
-

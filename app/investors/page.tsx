@@ -1,4 +1,10 @@
-import { BreadcrumbBackHome, Container, MediaPlaceholder, PageHeader } from "../_components/ui";
+import {
+  BreadcrumbBackHome,
+  Container,
+  InnerPageContent,
+  MediaPlaceholder,
+  PageHeader,
+} from "../_components/ui";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,10 +18,10 @@ export default function InvestorsPage() {
   return (
     <main className="flex-1">
       <Container>
-        <div className="py-8 sm:py-10">
+        <InnerPageContent>
           <BreadcrumbBackHome />
 
-          <div className="mt-6">
+          <div className="mt-8">
             <PageHeader
               eyebrow="Investor Division"
               title="Execution built for investors."
@@ -23,20 +29,23 @@ export default function InvestorsPage() {
             />
           </div>
 
-          <div className="mt-8 grid gap-6 lg:grid-cols-12 lg:items-start">
+          <div className="mt-12 grid gap-8 lg:grid-cols-12 lg:items-start">
             <div className="lg:col-span-7">
-              <p className="text-sm text-black/70">
-                GOOD Construction steps in as your execution partner—managing trades, controlling budgets,
+              <p className="text-base leading-relaxed text-white/75">
+                Good Construction steps in as your execution partner—managing trades, controlling budgets,
                 and accelerating timelines.
               </p>
-              <ul className="mt-4 grid gap-2 sm:grid-cols-2 text-sm">
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
                 {[
                   "Inconsistent subcontractor performance",
                   "Budget drift and scope creep",
                   "Timeline slip and rework",
                   "Profitability pressure on the backend",
                 ].map((item) => (
-                  <li key={item} className="rounded-md border border-black/10 px-3 py-2">
+                  <li
+                    key={item}
+                    className="rounded-xl border border-white/12 bg-white/[0.04] px-4 py-3 text-sm text-white/85 backdrop-blur-sm"
+                  >
                     {item}
                   </li>
                 ))}
@@ -49,9 +58,8 @@ export default function InvestorsPage() {
               />
             </div>
           </div>
-        </div>
+        </InnerPageContent>
       </Container>
     </main>
   );
 }
-

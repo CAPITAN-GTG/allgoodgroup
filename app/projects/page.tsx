@@ -1,4 +1,9 @@
-import { BreadcrumbBackHome, Container, PageHeader } from "../_components/ui";
+import {
+  BreadcrumbBackHome,
+  Container,
+  InnerPageContent,
+  PageHeader,
+} from "../_components/ui";
 import { ProjectsLightbox } from "./ProjectsLightbox";
 import type { Metadata } from "next";
 
@@ -13,10 +18,10 @@ export default function ProjectsPage() {
   return (
     <main className="flex-1">
       <Container>
-        <div className="py-8 sm:py-10">
+        <InnerPageContent>
           <BreadcrumbBackHome />
 
-          <div className="mt-6">
+          <div className="mt-8">
             <PageHeader
               eyebrow="Selected work"
               title="Projects"
@@ -64,9 +69,8 @@ export default function ProjectsPage() {
               },
             ]}
           />
-        </div>
+        </InnerPageContent>
       </Container>
     </main>
   );
 }
-

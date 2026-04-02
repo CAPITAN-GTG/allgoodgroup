@@ -1,31 +1,42 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
-const MEDIA_PLACEHOLDER_SRCS = [
-  "/placeholder-7.jpg",
-  "/placeholder-8.jpg",
-  "/placeholder-9.jpg",
-  "/placeholder-10.jpg",
-] as const;
+import { pickConstructionImage } from "@/lib/image-placeholders";
+import { cn } from "@/lib/utils";
 
-function pickMediaPlaceholderSrc(label: string) {
-  let hash = 0;
-  for (let i = 0; i < label.length; i++) {
-    hash = (hash * 31 + label.charCodeAt(i)) >>> 0;
-  }
-  return MEDIA_PLACEHOLDER_SRCS[hash % MEDIA_PLACEHOLDER_SRCS.length];
+export function Container({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn("mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8", className)}>{children}</div>
+  );
 }
 
-export function Container({ children }: { children: React.ReactNode }) {
+/** Vertical rhythm + top hairline for inner routes */
+export function InnerPageContent({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div className={cn("relative py-12 sm:py-16 lg:py-20", className)}>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent"
+      />
       {children}
     </div>
   );
 }
 
 export function Divider() {
-  return <div className="border-b border-black/10" />;
+  return <div className="border-b border-white/10" />;
 }
 
 export function PageHeader({
@@ -39,11 +50,11 @@ export function PageHeader({
 }) {
   return (
     <div className="max-w-3xl">
-      <p className="text-xs font-medium tracking-wide text-black/60">{eyebrow}</p>
-      <h1 className="mt-2 font-semibold tracking-tight text-3xl sm:text-4xl">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-400/95">{eyebrow}</p>
+      <h1 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[2.5rem] lg:leading-tight">
         {title}
       </h1>
-      <p className="mt-3 text-sm text-black/70 sm:text-base">{desc}</p>
+      <p className="mt-4 text-base leading-relaxed text-white/70 sm:text-lg">{desc}</p>
     </div>
   );
 }
@@ -59,11 +70,9 @@ export function SectionHeader({
 }) {
   return (
     <div className="max-w-3xl">
-      <p className="text-xs font-medium tracking-wide text-black/60">{eyebrow}</p>
-      <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
-        {title}
-      </h2>
-      <p className="mt-3 text-sm text-black/70 sm:text-base">{desc}</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-400/95">{eyebrow}</p>
+      <h2 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl">{title}</h2>
+      <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">{desc}</p>
     </div>
   );
 }
@@ -77,27 +86,28 @@ export function MediaPlaceholder({
   aspect: string;
   subtle?: boolean;
 }) {
-  const src = pickMediaPlaceholderSrc(label);
+  const src = pickConstructionImage(label);
 
   return (
     <div
       role="img"
       aria-label={label}
-      className={[
-        "w-full overflow-hidden rounded-md border border-black/10 bg-black/[0.02]",
+      className={cn(
+        "relative w-full overflow-hidden rounded-2xl border border-white/12 bg-white/[0.04] shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-sm",
         aspect,
-      ].join(" ")}
+      )}
     >
       <div className="relative h-full w-full">
         <Image
           src={src}
           alt=""
           fill
-          sizes="(min-width: 1024px) 520px, 100vw"
-          className={[
-            "object-cover",
-            subtle ? "opacity-70" : "opacity-85",
-          ].join(" ")}
+          sizes="(min-width: 1024px) 560px, 100vw"
+          className={cn("object-cover", subtle ? "opacity-75" : "opacity-90")}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/50 to-transparent"
         />
       </div>
     </div>
@@ -112,11 +122,11 @@ export function Card({
   children: React.ReactNode;
 }) {
   return (
-    <div className="group rounded-md border border-black/10 p-4 transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transform-none">
-      <p className="text-sm font-medium">{title}</p>
-      <p className="mt-2 text-sm text-black/70">{children}</p>
-      <div className="mt-4 text-xs text-black/50 transition-colors group-hover:text-black/80">
-        Learn more
+    <div className="group rounded-2xl border border-white/12 bg-white/[0.05] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-md transition duration-200 hover:-translate-y-1 hover:border-orange-400/25 hover:shadow-[0_16px_48px_rgba(234,88,12,0.12)] motion-reduce:transform-none">
+      <p className="text-base font-semibold text-white">{title}</p>
+      <p className="mt-3 text-sm leading-relaxed text-white/70">{children}</p>
+      <div className="mt-5 text-xs font-medium uppercase tracking-wide text-orange-400/80 opacity-0 transition group-hover:opacity-100">
+        Explore scope →
       </div>
     </div>
   );
@@ -124,9 +134,9 @@ export function Card({
 
 export function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-md border border-black/10 p-3">
-      <dt className="text-xs text-black/60">{label}</dt>
-      <dd className="mt-1 text-sm font-semibold">{value}</dd>
+    <div className="rounded-2xl border border-white/12 bg-white/[0.04] p-4 backdrop-blur-md">
+      <dt className="text-xs font-medium uppercase tracking-wide text-white/55">{label}</dt>
+      <dd className="mt-1 text-sm font-semibold text-white">{value}</dd>
     </div>
   );
 }
@@ -134,7 +144,10 @@ export function Stat({ label, value }: { label: string; value: string }) {
 export function BreadcrumbBackHome() {
   return (
     <div className="text-sm">
-      <Link href="/" className="inline-flex items-center gap-2 underline-offset-4 hover:underline">
+      <Link
+        href="/"
+        className="inline-flex items-center gap-2 text-white/70 transition hover:text-orange-300"
+      >
         <span aria-hidden>←</span>
         <span>Back to home</span>
       </Link>
@@ -144,8 +157,8 @@ export function BreadcrumbBackHome() {
 
 export function TexturedSection({
   textureSrc,
-  opacity = 0.08,
-  darken = false,
+  opacity = 0.12,
+  darken = true,
   blur = false,
   className,
   children,
@@ -158,18 +171,10 @@ export function TexturedSection({
   children: React.ReactNode;
 }) {
   return (
-    <section
-      className={[
-        "relative overflow-hidden",
-        className ?? "",
-      ].join(" ")}
-    >
+    <section className={cn("relative overflow-hidden", className ?? "")}>
       <div
         aria-hidden
-        className={[
-          "pointer-events-none absolute inset-0",
-          blur ? "scale-105 blur-xl" : "",
-        ].join(" ")}
+        className={cn("pointer-events-none absolute inset-0 -z-10", blur ? "scale-105 blur-xl" : "")}
         style={{
           backgroundImage: `url(${textureSrc})`,
           backgroundSize: "cover",
@@ -180,11 +185,10 @@ export function TexturedSection({
       {darken ? (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-black/55"
+          className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-slate-950/90 via-slate-950/85 to-slate-950"
         />
       ) : null}
       <div className="relative">{children}</div>
     </section>
   );
 }
-
